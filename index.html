@@ -2,16 +2,60 @@
 <html>
 <head>
   <title>Payment Tracker</title>
+
   <style>
-    body { font-family: Arial; padding: 20px; }
-    input, button { margin: 5px; padding: 8px; }
-    .overdue { color: red; }
+    body {
+      font-family: Arial;
+      background: #f5f7fb;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+    }
+
+    input {
+      width: 30%;
+      padding: 8px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .overdue {
+      color: red;
+      font-weight: bold;
+    }
   </style>
+
 </head>
 
 <body>
 
-<h2>Payment Tracker</h2>
+<div class="container">
+
+<h2>💰 Payment Tracker</h2>
 
 <input id="name" placeholder="Client Name">
 <input id="amount" placeholder="Amount">
@@ -20,6 +64,8 @@
 
 <h3>Payments</h3>
 <ul id="list"></ul>
+
+</div>
 
 <script>
 let payments = JSON.parse(localStorage.getItem("payments")) || [];
@@ -32,6 +78,11 @@ function addPayment() {
   let name = document.getElementById("name").value;
   let amount = document.getElementById("amount").value;
   let date = document.getElementById("date").value;
+
+  if (!name || !amount || !date) {
+    alert("Please fill all fields");
+    return;
+  }
 
   payments.push({ name, amount, date, paid: false });
   save();
@@ -62,8 +113,10 @@ function render() {
       <span class="${className}">
         ${p.name} - ₹${p.amount} - ${status}
       </span>
+      <br>
       <button onclick="markPaid(${i})">Mark Paid</button>
       <button onclick="copyMsg('${p.name}', '${p.amount}')">Reminder</button>
+      <hr>
     `;
 
     list.appendChild(li);
@@ -79,5 +132,7 @@ function copyMsg(name, amount) {
 render();
 </script>
 
+</body>
+</html>
 </body>
 </html>
