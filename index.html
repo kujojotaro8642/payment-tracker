@@ -95,6 +95,12 @@ function markPaid(index) {
   render();
 }
 
+function sendWhatsApp(name, amount) {
+  let msg = `Hi ${name}, just a reminder that ₹${amount} is pending. Please clear it. Thank you.`;
+  let url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
 function render() {
   let list = document.getElementById("list");
   list.innerHTML = "";
@@ -115,7 +121,7 @@ function render() {
       </span>
       <br>
       <button onclick="markPaid(${i})">Mark Paid</button>
-      <button onclick="copyMsg('${p.name}', '${p.amount}')">Reminder</button>
+      <button onclick="sendWhatsApp('${p.name}', '${p.amount}')">WhatsApp</button>
       <hr>
     `;
 
@@ -123,16 +129,11 @@ function render() {
   });
 }
 
-function copyMsg(name, amount) {
-  let msg = `Hi ${name}, just a reminder that ₹${amount} is pending. Please clear it. Thank you.`;
-  navigator.clipboard.writeText(msg);
-  alert("Message copied!");
-}
-
 render();
 </script>
 
 </body>
+</html>
 </html>
 </body>
 </html>
