@@ -17,7 +17,6 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
       text-align: center;
     }
 
@@ -41,6 +40,10 @@
       background: #45a049;
     }
 
+    .delete-btn {
+      background: red;
+    }
+
     .overdue {
       color: red;
       font-weight: bold;
@@ -50,16 +53,7 @@
 
 <body>
 
-<!-- LOGIN -->
-<div class="container" id="loginBox">
-  <h2>🔐 Enter Access Code</h2>
-  <input id="code" placeholder="Enter Code">
-  <br>
-  <button onclick="checkCode()">Enter</button>
-</div>
-
-<!-- APP -->
-<div class="container" id="app" style="display:none;">
+<div class="container">
 
 <h2>💰 Payment Tracker</h2>
 
@@ -75,22 +69,6 @@
 </div>
 
 <script>
-
-// 🔐 CHANGE THIS CODE FOR USERS
-const ACCESS_CODE = "1234";
-
-function checkCode() {
-  let code = document.getElementById("code").value;
-
-  if (code === ACCESS_CODE) {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("app").style.display = "block";
-  } else {
-    alert("Wrong Code");
-  }
-}
-
-// ---------------- APP ----------------
 
 let payments = JSON.parse(localStorage.getItem("payments")) || [];
 
@@ -115,6 +93,12 @@ function addPayment() {
 
 function markPaid(index) {
   payments[index].paid = true;
+  save();
+  render();
+}
+
+function deletePayment(index) {
+  payments.splice(index, 1);
   save();
   render();
 }
@@ -146,6 +130,7 @@ function render() {
       <br>
       <button onclick="markPaid(${i})">Mark Paid</button>
       <button onclick="sendWhatsApp('${p.name}', '${p.amount}')">WhatsApp</button>
+      <button class="delete-btn" onclick="deletePayment(${i})">Delete</button>
       <hr>
     `;
 
