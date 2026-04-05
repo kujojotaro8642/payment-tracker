@@ -17,16 +17,14 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2, h3 {
+      margin-bottom: 20px;
       text-align: center;
     }
 
     input {
-      width: 30%;
       padding: 8px;
       margin: 5px;
+      width: 30%;
     }
 
     button {
@@ -48,19 +46,28 @@
       font-weight: bold;
     }
   </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<!-- LOGIN -->
+<div class="container" id="loginBox">
+  <h2>🔐 Enter Access Code</h2>
+  <input id="code" placeholder="Enter Code">
+  <br>
+  <button onclick="checkCode()">Enter</button>
+</div>
+
+<!-- APP -->
+<div class="container" id="app" style="display:none;">
 
 <h2>💰 Payment Tracker</h2>
 
 <input id="name" placeholder="Client Name">
 <input id="amount" placeholder="Amount">
 <input id="date" type="date">
-<button onclick="addPayment()">Add</button>
+<br>
+<button onclick="addPayment()">Add Payment</button>
 
 <h3>Payments</h3>
 <ul id="list"></ul>
@@ -68,6 +75,23 @@
 </div>
 
 <script>
+
+// 🔐 CHANGE THIS CODE FOR USERS
+const ACCESS_CODE = "1234";
+
+function checkCode() {
+  let code = document.getElementById("code").value;
+
+  if (code === ACCESS_CODE) {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  } else {
+    alert("Wrong Code");
+  }
+}
+
+// ---------------- APP ----------------
+
 let payments = JSON.parse(localStorage.getItem("payments")) || [];
 
 function save() {
@@ -130,10 +154,8 @@ function render() {
 }
 
 render();
+
 </script>
 
-</body>
-</html>
-</html>
 </body>
 </html>
